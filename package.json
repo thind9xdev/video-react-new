@@ -1,6 +1,6 @@
 {
   "name": "video-react-new",
-  "version": "0.21.1",
+  "version": "0.21.2",
   "description": "video-react-new is a web video player built from the ground up for an HTML5 world using React library.",
   "main": "dist/video-react-new.cjs.js",
   "module": "dist/video-react-new.es.js",
