@@ -1,0 +1,51 @@
+.video-react-new .video-react-new-control-bar {
+  display: none;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3.0em;
+
+  @include background-color-with-alpha($video-react-new-primary-background-color, $video-react-new-primary-background-transparency);
+}
+
+// Video has started playing
+.video-react-new-has-started .video-react-new-control-bar {
+  @include display-flex;
+  visibility: visible;
+  opacity: 1;
+
+  $trans: visibility 0.1s, opacity 0.1s; // Var needed because of comma
+  @include transition($trans);
+}
+
+// Video has started playing AND user is inactive
+.video-react-new-has-started.video-react-new-user-inactive.video-react-new-playing {
+  .video-react-new-control-bar.video-react-new-control-bar-auto-hide {
+    // Remain visible for screen reader and keyboard users
+    visibility: visible;
+    opacity: 0;
+
+    $trans: visibility 1.0s, opacity 1.0s;
+    @include transition($trans);
+  }
+}
+
+.video-react-new-controls-disabled .video-react-new-control-bar,
+.video-react-new-using-native-controls .video-react-new-control-bar,
+.video-react-new-error .video-react-new-control-bar {
+  // !important is ok in this context.
+  display: none !important;
+}
+
+// Don't hide the control bar if it's audio
+.video-react-new-audio.video-react-new-has-started.video-react-new-user-inactive.video-react-new-playing .video-react-new-control-bar {
+  opacity: 1;
+  visibility: visible;
+}
+
+// IE 8 + 9 Support
+.video-react-new-has-started.video-react-new-no-flex .video-react-new-control-bar {
+  display: table;
+}

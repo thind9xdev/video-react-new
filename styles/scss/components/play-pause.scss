@@ -1,0 +1,11 @@
+.video-react-new .video-react-new-play-control {
+  cursor: pointer;
+  @include flex(none);
+  @extend .video-react-new-icon;
+  @extend .video-react-new-icon-play-arrow;
+
+  &.video-react-new-playing {
+    @extend .video-react-new-icon-pause;
+  }
+}
+

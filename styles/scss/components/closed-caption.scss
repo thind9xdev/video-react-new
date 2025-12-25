@@ -1,0 +1,13 @@
+.video-react-new {
+  .video-react-new-closed-caption {
+    cursor: pointer;
+    @include flex(none);
+    @extend .video-react-new-icon;
+    @extend .video-react-new-icon-closed-caption;
+  }
+
+  video::-webkit-media-text-track-container {
+    -webkit-transform: translateY(-30px);
+    transform: translateY(-30px);
+  }
+}
