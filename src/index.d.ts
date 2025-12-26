@@ -297,6 +297,50 @@ declare module 'video-react-new' {
   }
   class FullscreenToggle extends React.Component<FullscreenTogglePropsType> {}
 
+  interface PictureInPictureTogglePropsType {
+    actions?: object;
+    player?: object;
+    className?: string;
+  }
+  class PictureInPictureToggle extends React.Component<
+    PictureInPictureTogglePropsType
+  > {}
+
+  interface LoopTogglePropsType {
+    actions?: object;
+    player?: object;
+    className?: string;
+  }
+  class LoopToggle extends React.Component<LoopTogglePropsType> {}
+
+  interface TheaterModeTogglePropsType {
+    actions?: object;
+    player?: object;
+    className?: string;
+  }
+  class TheaterModeToggle extends React.Component<TheaterModeTogglePropsType> {}
+
+  interface DownloadButtonPropsType {
+    player?: object;
+    className?: string;
+  }
+  class DownloadButton extends React.Component<DownloadButtonPropsType> {}
+
+  interface ScreenshotButtonPropsType {
+    player?: object;
+    actions?: object;
+    className?: string;
+  }
+  class ScreenshotButton extends React.Component<ScreenshotButtonPropsType> {}
+
+  interface QualityMenuButtonPropsType {
+    player?: object;
+    actions?: object;
+    qualities?: Array<string>; // = ['auto', '1080p', '720p', '480p', '360p', '240p'];
+    className?: string;
+  }
+  class QualityMenuButton extends React.Component<QualityMenuButtonPropsType> {}
+
   interface ProgressControlPropsType {
     player?: object;
     className?: string;
