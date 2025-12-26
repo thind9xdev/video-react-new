@@ -82,6 +82,12 @@ export default class Video extends Component {
     this.handleProgress = throttle(this.handleProgress.bind(this), 250);
     this.handleKeypress = this.handleKeypress.bind(this);
     this.handleTextTrackChange = this.handleTextTrackChange.bind(this);
+    this.handleEnterPictureInPicture = this.handleEnterPictureInPicture.bind(
+      this
+    );
+    this.handleLeavePictureInPicture = this.handleLeavePictureInPicture.bind(
+      this
+    );
   }
 
   componentDidMount() {
@@ -89,6 +95,29 @@ export default class Video extends Component {
     if (this.video && this.video.textTracks) {
       this.video.textTracks.onaddtrack = this.handleTextTrackChange;
       this.video.textTracks.onremovetrack = this.handleTextTrackChange;
+    }
+    if (this.video) {
+      this.video.addEventListener(
+        'enterpictureinpicture',
+        this.handleEnterPictureInPicture
+      );
+      this.video.addEventListener(
+        'leavepictureinpicture',
+        this.handleLeavePictureInPicture
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.video) {
+      this.video.removeEventListener(
+        'enterpictureinpicture',
+        this.handleEnterPictureInPicture
+      );
+      this.video.removeEventListener(
+        'leavepictureinpicture',
+        this.handleLeavePictureInPicture
+      );
     }
   }
 
@@ -484,6 +513,16 @@ export default class Video extends Component {
   }
 
   handleKeypress() {}
+
+  handleEnterPictureInPicture() {
+    const { actions } = this.props;
+    actions.handlePictureInPictureChange(true);
+  }
+
+  handleLeavePictureInPicture() {
+    const { actions } = this.props;
+    actions.handlePictureInPictureChange(false);
+  }
 
   renderChildren() {
     const props = {

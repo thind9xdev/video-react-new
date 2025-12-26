@@ -24,6 +24,10 @@ export const LOADED_DATA = 'video-react-new/LOADED_DATA';
 export const RESIZE = 'video-react-new/RESIZE';
 export const ERROR = 'video-react-new/ERROR';
 export const ACTIVATE_TEXT_TRACK = 'video-react-new/ACTIVATE_TEXT_TRACK';
+export const PICTURE_IN_PICTURE_CHANGE = 'video-react-new/PICTURE_IN_PICTURE_CHANGE';
+export const LOOP_CHANGE = 'video-react-new/LOOP_CHANGE';
+export const THEATER_MODE_CHANGE = 'video-react-new/THEATER_MODE_CHANGE';
+export const QUALITY_CHANGE = 'video-react-new/QUALITY_CHANGE';
 
 export function handleLoadStart(videoProps) {
   return {
@@ -204,5 +208,33 @@ export function activateTextTrack(textTrack) {
   return {
     type: ACTIVATE_TEXT_TRACK,
     textTrack
+  };
+}
+
+export function handlePictureInPictureChange(isPictureInPicture) {
+  return {
+    type: PICTURE_IN_PICTURE_CHANGE,
+    isPictureInPicture
+  };
+}
+
+export function handleLoopChange(loop) {
+  return {
+    type: LOOP_CHANGE,
+    loop
+  };
+}
+
+export function handleTheaterModeChange(isTheater) {
+  return {
+    type: THEATER_MODE_CHANGE,
+    isTheater
+  };
+}
+
+export function handleQualityChange(quality) {
+  return {
+    type: QUALITY_CHANGE,
+    quality
   };
 }

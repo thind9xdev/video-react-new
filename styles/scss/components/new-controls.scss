@@ -1,0 +1,43 @@
+// Picture-in-Picture Control
+.video-react-new .video-react-new-picture-in-picture-control {
+  cursor: pointer;
+  @include flex(none);
+}
+
+// Loop Control
+.video-react-new .video-react-new-loop-control {
+  cursor: pointer;
+  @include flex(none);
+}
+
+.video-react-new .video-react-new-loop-control.video-react-new-icon-loop-active {
+  opacity: 0.7;
+}
+
+// Theater Mode Control
+.video-react-new .video-react-new-theater-control {
+  cursor: pointer;
+  @include flex(none);
+}
+
+// Download Button
+.video-react-new .video-react-new-download-control {
+  cursor: pointer;
+  @include flex(none);
+}
+
+// Screenshot Button
+.video-react-new .video-react-new-screenshot-control {
+  cursor: pointer;
+  @include flex(none);
+}
+
+// Quality Menu
+.video-react-new .video-react-new-quality-menu {
+  .video-react-new-quality-value {
+    font-size: 1em;
+    line-height: 3em;
+    text-align: center;
+  }
+}
+

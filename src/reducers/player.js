@@ -24,7 +24,11 @@ import {
   LOADED_DATA,
   ACTIVATE_TEXT_TRACK,
   RESIZE,
-  ERROR
+  ERROR,
+  PICTURE_IN_PICTURE_CHANGE,
+  LOOP_CHANGE,
+  THEATER_MODE_CHANGE,
+  QUALITY_CHANGE
 } from '../actions/video';
 import {
   FULLSCREEN_CHANGE,
@@ -54,6 +58,10 @@ const initialState = {
   userActivity: true,
   isActive: false,
   isFullscreen: false,
+  isPictureInPicture: false,
+  loop: false,
+  isTheater: false,
+  quality: 'auto',
   activeTextTrack: null
 };
 
@@ -171,6 +179,26 @@ export default function player(state = initialState, action) {
       return {
         ...state,
         activeTextTrack: action.textTrack
+      };
+    case PICTURE_IN_PICTURE_CHANGE:
+      return {
+        ...state,
+        isPictureInPicture: !!action.isPictureInPicture
+      };
+    case LOOP_CHANGE:
+      return {
+        ...state,
+        loop: !!action.loop
+      };
+    case THEATER_MODE_CHANGE:
+      return {
+        ...state,
+        isTheater: !!action.isTheater
+      };
+    case QUALITY_CHANGE:
+      return {
+        ...state,
+        quality: action.quality || 'auto'
       };
     default:
       return state;

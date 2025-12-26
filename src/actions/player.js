@@ -189,3 +189,99 @@ export function toggleFullscreen(player) {
     isFullscreen: !player.isFullscreen
   };
 }
+
+export function togglePictureInPicture(
+  operation = {
+    action: 'toggle-picture-in-picture',
+    source: ''
+  }
+) {
+  if (document.pictureInPictureEnabled && this.video) {
+    if (document.pictureInPictureElement) {
+      document.exitPictureInPicture();
+    } else {
+      this.video.requestPictureInPicture();
+    }
+  }
+
+  return {
+    type: OPERATE,
+    operation
+  };
+}
+
+export function toggleLoop(
+  loop,
+  operation = {
+    action: 'toggle-loop',
+    source: ''
+  }
+) {
+  this.video.loop = loop;
+
+  return {
+    type: OPERATE,
+    operation
+  };
+}
+
+export function toggleTheaterMode(
+  isTheater,
+  operation = {
+    action: 'toggle-theater',
+    source: ''
+  }
+) {
+  return {
+    type: OPERATE,
+    operation: {
+      ...operation,
+      isTheater
+    }
+  };
+}
+
+export function changeQuality(
+  quality,
+  operation = {
+    action: 'change-quality',
+    source: ''
+  }
+) {
+  return {
+    type: OPERATE,
+    operation: {
+      ...operation,
+      quality
+    }
+  };
+}
+
+export function takeScreenshot(
+  operation = {
+    action: 'take-screenshot',
+    source: ''
+  }
+) {
+  if (this.video) {
+    const canvas = document.createElement('canvas');
+    canvas.width = this.video.videoWidth;
+    canvas.height = this.video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(this.video, 0, 0, canvas.width, canvas.height);
+    
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `screenshot-${Date.now()}.png`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  return {
+    type: OPERATE,
+    operation
+  };
+}

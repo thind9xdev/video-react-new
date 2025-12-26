@@ -235,4 +235,46 @@ $icon-font-family: 'video-react-new';
   }
 }
 
+// New icons - using existing icons as placeholders or CSS-based solutions
+.video-react-new-icon-picture-in-picture {
+  &:before {
+    content: $video-react-new-icon-fullscreen; // Reuse fullscreen icon
+  }
+}
+.video-react-new-icon-picture-in-picture-exit {
+  &:before {
+    content: $video-react-new-icon-fullscreen-exit; // Reuse fullscreen-exit icon
+  }
+}
+.video-react-new-icon-loop {
+  &:before {
+    content: $video-react-new-icon-replay-5; // Reuse replay icon
+  }
+}
+.video-react-new-icon-loop-active {
+  &:before {
+    content: $video-react-new-icon-replay-5; // Reuse replay icon
+  }
+}
+.video-react-new-icon-theater {
+  &:before {
+    content: $video-react-new-icon-fullscreen; // Reuse fullscreen icon
+  }
+}
+.video-react-new-icon-theater-exit {
+  &:before {
+    content: $video-react-new-icon-fullscreen-exit; // Reuse fullscreen-exit icon
+  }
+}
+.video-react-new-icon-download {
+  &:before {
+    content: $video-react-new-icon-share; // Reuse share icon
+  }
+}
+.video-react-new-icon-camera {
+  &:before {
+    content: $video-react-new-icon-circle; // Reuse circle icon for camera/screenshot
+  }
+}
+
 
