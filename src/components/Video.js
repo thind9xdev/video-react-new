@@ -82,6 +82,12 @@ export default class Video extends Component {
     this.handleProgress = throttle(this.handleProgress.bind(this), 250);
     this.handleKeypress = this.handleKeypress.bind(this);
     this.handleTextTrackChange = this.handleTextTrackChange.bind(this);
+    this.handleEnterPictureInPicture = this.handleEnterPictureInPicture.bind(
+      this
+    );
+    this.handleLeavePictureInPicture = this.handleLeavePictureInPicture.bind(
+      this
+    );
   }
 
   componentDidMount() {
@@ -89,6 +95,29 @@ export default class Video extends Component {
     if (this.video && this.video.textTracks) {
       this.video.textTracks.onaddtrack = this.handleTextTrackChange;
       this.video.textTracks.onremovetrack = this.handleTextTrackChange;
+    }
+    if (this.video) {
+      this.video.addEventListener(
+        'enterpictureinpicture',
+        this.handleEnterPictureInPicture
+      );
+      this.video.addEventListener(
+        'leavepictureinpicture',
+        this.handleLeavePictureInPicture
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.video) {
+      this.video.removeEventListener(
+        'enterpictureinpicture',
+        this.handleEnterPictureInPicture
+      );
+      this.video.removeEventListener(
+        'leavepictureinpicture',
+        this.handleLeavePictureInPicture
+      );
     }
   }
 
@@ -315,9 +344,7 @@ export default class Video extends Component {
   // Fired when the end of the media resource
   // is reached (currentTime == duration)
   handleEnded(...args) {
-    const {
-      loop, player, actions, onEnded
-    } = this.props;
+    const { loop, player, actions, onEnded } = this.props;
     if (loop) {
       this.seek(0);
       this.play();
@@ -485,6 +512,16 @@ export default class Video extends Component {
 
   handleKeypress() {}
 
+  handleEnterPictureInPicture() {
+    const { actions } = this.props;
+    actions.handlePictureInPictureChange(true);
+  }
+
+  handleLeavePictureInPicture() {
+    const { actions } = this.props;
+    actions.handlePictureInPictureChange(false);
+  }
+
   renderChildren() {
     const props = {
       ...this.props,
@@ -499,7 +536,7 @@ export default class Video extends Component {
     // only keep <source />, <track />, <MyComponent isVideoChild /> elements
     return React.Children.toArray(this.props.children)
       .filter(isVideoChild)
-      .map((c) => {
+      .map(c => {
         let cprops;
         if (typeof c.type === 'string') {
           // add onError to <source />
@@ -538,7 +575,7 @@ export default class Video extends Component {
         className={classNames('video-react-new-video', this.props.className)}
         id={videoId}
         crossOrigin={crossOrigin}
-        ref={(c) => {
+        ref={c => {
           this.video = c;
         }}
         muted={muted}

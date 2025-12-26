@@ -10,6 +10,7 @@ Video-React-New is a web video player built from the ground up for an HTML5 worl
 This is a maintained fork of the original [video-react](https://github.com/video-react/video-react) project, with continued support for modern React versions (React 15-19) and ongoing bug fixes. The project aims to provide a stable, feature-rich video player component for React applications.
 
 **Key Features:**
+
 - 🎬 HTML5 video player built specifically for React
 - ⚛️ Full support for React 15, 16, 17, 18, and 19
 - 📱 Responsive design that works on mobile and desktop
@@ -131,7 +132,7 @@ export default function ControlledPlayer() {
     playerRef.current.pause();
   };
 
-  const handleSeek = (seconds) => {
+  const handleSeek = seconds => {
     playerRef.current.seek(seconds);
   };
 
@@ -144,6 +145,59 @@ export default function ControlledPlayer() {
       <button onClick={handlePause}>Pause</button>
       <button onClick={() => handleSeek(10)}>Skip to 10s</button>
     </div>
+  );
+}
+```
+
+### Using Custom Controls
+
+The new controls can be added to the player using the `ControlBar` component:
+
+```jsx
+import React from 'react';
+import {
+  Player,
+  ControlBar,
+  PlayToggle,
+  VolumeMenuButton,
+  CurrentTimeDisplay,
+  TimeDivider,
+  DurationDisplay,
+  ProgressControl,
+  FullscreenToggle,
+  PictureInPictureToggle,
+  LoopToggle,
+  TheaterModeToggle,
+  DownloadButton,
+  ScreenshotButton,
+  QualityMenuButton,
+  PlaybackRateMenuButton
+} from 'video-react-new';
+
+export default function CustomControlsPlayer() {
+  return (
+    <Player>
+      <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
+      <ControlBar>
+        <PlayToggle order={1} />
+        <VolumeMenuButton order={2} />
+        <CurrentTimeDisplay order={3} />
+        <TimeDivider order={4} />
+        <DurationDisplay order={5} />
+        <ProgressControl order={6} />
+        <LoopToggle order={7} />
+        <PlaybackRateMenuButton rates={[0.5, 1, 1.5, 2]} order={8} />
+        <QualityMenuButton
+          qualities={['auto', '1080p', '720p', '480p']}
+          order={9}
+        />
+        <ScreenshotButton order={10} />
+        <DownloadButton order={11} />
+        <PictureInPictureToggle order={12} />
+        <TheaterModeToggle order={13} />
+        <FullscreenToggle order={14} />
+      </ControlBar>
+    </Player>
   );
 }
 ```
@@ -185,11 +239,17 @@ export default function StatePlayer() {
 - `ForwardControl` - Forward skip button
 - `ReplayControl` - Replay/rewind button
 - `FullscreenToggle` - Fullscreen button
+- `PictureInPictureToggle` - Picture-in-picture button
+- `TheaterModeToggle` - Theater mode button
+- `LoopToggle` - Loop playback button
 - `ProgressControl` - Progress bar
 - `SeekBar` - Seekable progress bar
 - `PlaybackRateMenuButton` - Playback speed control
+- `QualityMenuButton` - Quality selection menu
 - `VolumeMenuButton` - Volume control
 - `ClosedCaptionButton` - Closed captions toggle
+- `DownloadButton` - Download video button
+- `ScreenshotButton` - Take screenshot button
 - `RemainingTimeDisplay` - Remaining time display
 - `CurrentTimeDisplay` - Current time display
 - `DurationDisplay` - Total duration display
@@ -201,49 +261,50 @@ export default function StatePlayer() {
 
 ### Player Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `fluid` | boolean | `true` | Player size follows container width |
-| `width` | number | - | Player width in pixels |
-| `height` | number | - | Player height in pixels |
-| `src` | string | - | Video source URL |
-| `poster` | string | - | Poster image URL |
-| `preload` | string | `'auto'` | Preload strategy: 'auto', 'metadata', 'none' |
-| `autoPlay` | boolean | `false` | Autoplay video on load |
-| `loop` | boolean | `false` | Loop video playback |
-| `muted` | boolean | `false` | Mute video by default |
-| `playsInline` | boolean | `false` | Play inline on mobile devices |
-| `aspectRatio` | string | `'auto'` | Aspect ratio (e.g., '16:9', '4:3') |
-| `startTime` | number | - | Start playback at specific time (seconds) |
+| Prop          | Type    | Default  | Description                                  |
+| ------------- | ------- | -------- | -------------------------------------------- |
+| `fluid`       | boolean | `true`   | Player size follows container width          |
+| `width`       | number  | -        | Player width in pixels                       |
+| `height`      | number  | -        | Player height in pixels                      |
+| `src`         | string  | -        | Video source URL                             |
+| `poster`      | string  | -        | Poster image URL                             |
+| `preload`     | string  | `'auto'` | Preload strategy: 'auto', 'metadata', 'none' |
+| `autoPlay`    | boolean | `false`  | Autoplay video on load                       |
+| `loop`        | boolean | `false`  | Loop video playback                          |
+| `muted`       | boolean | `false`  | Mute video by default                        |
+| `playsInline` | boolean | `false`  | Play inline on mobile devices                |
+| `aspectRatio` | string  | `'auto'` | Aspect ratio (e.g., '16:9', '4:3')           |
+| `startTime`   | number  | -        | Start playback at specific time (seconds)    |
 
 ### Player Methods (via ref)
 
-| Method | Description |
-|--------|-------------|
-| `play()` | Start playback |
-| `pause()` | Pause playback |
-| `load()` | Load video |
-| `seek(time)` | Seek to specific time in seconds |
-| `forward(seconds)` | Skip forward by seconds |
-| `replay(seconds)` | Skip backward by seconds |
-| `changeRate(rate)` | Change playback rate (0.5, 1, 1.5, 2, etc.) |
-| `changeVolume(volume)` | Change volume (0 to 1) |
-| `mute()` | Mute audio |
-| `unmute()` | Unmute audio |
-| `toggleFullscreen()` | Toggle fullscreen mode |
-| `subscribeToStateChange(callback)` | Subscribe to state changes |
+| Method                             | Description                                 |
+| ---------------------------------- | ------------------------------------------- |
+| `play()`                           | Start playback                              |
+| `pause()`                          | Pause playback                              |
+| `load()`                           | Load video                                  |
+| `seek(time)`                       | Seek to specific time in seconds            |
+| `forward(seconds)`                 | Skip forward by seconds                     |
+| `replay(seconds)`                  | Skip backward by seconds                    |
+| `changeRate(rate)`                 | Change playback rate (0.5, 1, 1.5, 2, etc.) |
+| `changeVolume(volume)`             | Change volume (0 to 1)                      |
+| `mute()`                           | Mute audio                                  |
+| `unmute()`                         | Unmute audio                                |
+| `toggleFullscreen()`               | Toggle fullscreen mode                      |
+| `subscribeToStateChange(callback)` | Subscribe to state changes                  |
 
 ## Browser support
 
-| Browser | Windows  |  Mac  | Linux | Android  |    iOS     |
-| :-----: | :------: | :---: | :---: | :------: | :--------: |
-| Chrome  |  **Yes**   | **Yes** | **Yes** |  **Yes**   | **Native** |
-| Firefox |  **Yes**   | **Yes** | **Yes** | **Yes** | **Native** |
-|  Edge   |  **Yes**   | **Yes**   |   -   |    -     |     -      |
-|  IE 11  | Untested |   -   |   -   |    -     |     -      |
-| Safari  |    -     | **Yes** |   -   |    -     |   **Yes**    |
+| Browser | Windows  |   Mac   |  Linux  | Android |    iOS     |
+| :-----: | :------: | :-----: | :-----: | :-----: | :--------: |
+| Chrome  | **Yes**  | **Yes** | **Yes** | **Yes** | **Native** |
+| Firefox | **Yes**  | **Yes** | **Yes** | **Yes** | **Native** |
+|  Edge   | **Yes**  | **Yes** |    -    |    -    |     -      |
+|  IE 11  | Untested |    -    |    -    |    -    |     -      |
+| Safari  |    -     | **Yes** |    -    |    -    |  **Yes**   |
 
 **Notes:**
+
 - Only the latest stable version is actively tested and supported
 - Video-react-new may work in older browser releases, and we accept pull requests for them
 - "Native" means the browser's native video player is used on mobile
@@ -267,14 +328,20 @@ export default function HLSPlayer() {
       const hls = new Hls();
       hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
       hls.attachMedia(player.video.video);
-    } else if (player.video.video.canPlayType('application/vnd.apple.mpegurl')) {
-      player.video.video.src = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+    } else if (
+      player.video.video.canPlayType('application/vnd.apple.mpegurl')
+    ) {
+      player.video.video.src =
+        'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
     }
   }, []);
 
   return (
     <Player ref={playerRef}>
-      <source src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" type="application/x-mpegURL" />
+      <source
+        src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        type="application/x-mpegURL"
+      />
     </Player>
   );
 }
@@ -284,18 +351,18 @@ export default function HLSPlayer() {
 
 When the player is focused, you can use these keyboard shortcuts:
 
-| Key | Action |
-|-----|--------|
-| `Space` or `K` | Play/Pause |
-| `←` | Rewind 5 seconds |
-| `→` | Forward 5 seconds |
-| `↑` | Increase volume |
-| `↓` | Decrease volume |
-| `F` | Toggle fullscreen |
-| `M` | Toggle mute |
-| `0-9` | Jump to 0%-90% of video |
-| `Home` | Jump to beginning |
-| `End` | Jump to end |
+| Key            | Action                  |
+| -------------- | ----------------------- |
+| `Space` or `K` | Play/Pause              |
+| `←`            | Rewind 5 seconds        |
+| `→`            | Forward 5 seconds       |
+| `↑`            | Increase volume         |
+| `↓`            | Decrease volume         |
+| `F`            | Toggle fullscreen       |
+| `M`            | Toggle mute             |
+| `0-9`          | Jump to 0%-90% of video |
+| `Home`         | Jump to beginning       |
+| `End`          | Jump to end             |
 
 ## Styling and Customization
 
@@ -336,8 +403,8 @@ $primary-color: #ff0000;
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/thind9xdev/video-react-new-dart.git
-cd video-react-new-dart
+git clone https://github.com/thind9xdev/video-react-new.git
+cd video-react-new
 npm install
 ```
 
@@ -464,14 +531,15 @@ MIT © [Video-React-New Contributors](https://github.com/thind9xdev/video-react-
 
 ## Links
 
-- [GitHub Repository](https://github.com/thind9xdev/video-react-new-dart)
+- [GitHub Repository](https://github.com/thind9xdev/video-react-new)
 - [NPM Package](https://www.npmjs.com/package/video-react-new)
-- [Issue Tracker](https://github.com/thind9xdev/video-react-new-dart/issues)
+- [Issue Tracker](https://github.com/thind9xdev/video-react-new/issues)
 - [Changelog](./CHANGELOG.md)
 
 ## Support
 
 If you find this project useful, please consider:
+
 - ⭐ Starring the repository
 - 🐛 Reporting bugs
 - 💡 Suggesting new features
