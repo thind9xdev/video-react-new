@@ -269,7 +269,6 @@ export function takeScreenshot(
     canvas.height = this.video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(this.video, 0, 0, canvas.width, canvas.height);
-    
     canvas.toBlob((blob) => {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
