@@ -21,6 +21,12 @@ import VolumeMenuButton from './components/control-bar/VolumeMenuButton';
 import PlaybackRateMenuButton from './components/control-bar/PlaybackRateMenuButton';
 import PlaybackRate from './components/control-bar/PlaybackRate';
 import ClosedCaptionButton from './components/control-bar/ClosedCaptionButton';
+import PictureInPictureToggle from './components/control-bar/PictureInPictureToggle';
+import LoopToggle from './components/control-bar/LoopToggle';
+import TheaterModeToggle from './components/control-bar/TheaterModeToggle';
+import DownloadButton from './components/control-bar/DownloadButton';
+import ScreenshotButton from './components/control-bar/ScreenshotButton';
+import QualityMenuButton from './components/control-bar/QualityMenuButton';
 
 import RemainingTimeDisplay from './components/time-controls/RemainingTimeDisplay';
 import CurrentTimeDisplay from './components/time-controls/CurrentTimeDisplay';
@@ -60,6 +66,12 @@ export {
   PlaybackRateMenuButton,
   ClosedCaptionButton,
   PlaybackRate,
+  PictureInPictureToggle,
+  LoopToggle,
+  TheaterModeToggle,
+  DownloadButton,
+  ScreenshotButton,
+  QualityMenuButton,
   MenuButton,
   playerActions,
   videoActions,

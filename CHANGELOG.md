@@ -1,3 +1,17 @@
+<a name="0.21.4"></a>
+## 0.21.4 (2025-12-26)
+
+
+### Bug Fixes
+
+* rm docs pages ([4a7349d](https://github.com/thind9xdev/video-react-new/commit/4a7349d))
+* rm docs pages [#2](https://github.com/thind9xdev/video-react-new/issues/2) ([38a455b](https://github.com/thind9xdev/video-react-new/commit/38a455b))
+* update react 19 ([511554c](https://github.com/thind9xdev/video-react-new/commit/511554c))
+* update readme ([0a4bcf4](https://github.com/thind9xdev/video-react-new/commit/0a4bcf4))
+* update support react 19 ([a107d5a](https://github.com/thind9xdev/video-react-new/commit/a107d5a))
+
+
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
