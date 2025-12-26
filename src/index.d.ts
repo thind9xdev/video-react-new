@@ -826,4 +826,45 @@ declare module 'video-react-new' {
 
   function playerReducer(state: any, action: any);
   function operationReducer(state: any, action: any);
+
+  // Export all components
+  export {
+    Player,
+    Video,
+    BigPlayButton,
+    LoadingSpinner,
+    PosterImage,
+    Bezel,
+    Shortcut,
+    ControlBar,
+    PlayToggle,
+    ForwardControl,
+    ReplayControl,
+    FullscreenToggle,
+    PictureInPictureToggle,
+    LoopToggle,
+    TheaterModeToggle,
+    DownloadButton,
+    ScreenshotButton,
+    QualityMenuButton,
+    ProgressControl,
+    SeekBar,
+    Slider,
+    PlayProgressBar,
+    LoadProgressBar,
+    MouseTimeDisplay,
+    RemainingTimeDisplay,
+    CurrentTimeDisplay,
+    DurationDisplay,
+    TimeDivider,
+    VolumeMenuButton,
+    PlaybackRateMenuButton,
+    ClosedCaptionButton,
+    PlaybackRate,
+    MenuButton,
+    playerActions,
+    videoActions,
+    playerReducer,
+    operationReducer
+  };
 }
