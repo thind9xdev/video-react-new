@@ -27,7 +27,6 @@ import {
 describe('player', () => {
   it('should return the initail state', () => {
     const expectedInitialState = {
-      activeTextTrack: null,
       currentSrc: null,
       duration: 0,
       currentTime: 0,
@@ -48,7 +47,12 @@ describe('player', () => {
       hasStarted: false,
       userActivity: true,
       isActive: false,
-      isFullscreen: false
+      isFullscreen: false,
+      isPictureInPicture: false,
+      loop: false,
+      isTheater: false,
+      quality: 'auto',
+      activeTextTrack: null
     };
     expect(player(undefined, {})).toEqual(expectedInitialState);
   });
