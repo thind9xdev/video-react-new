@@ -148,6 +148,56 @@ export default function ControlledPlayer() {
 }
 ```
 
+### Using Custom Controls
+
+The new controls can be added to the player using the `ControlBar` component:
+
+```jsx
+import React from 'react';
+import {
+  Player,
+  ControlBar,
+  PlayToggle,
+  VolumeMenuButton,
+  CurrentTimeDisplay,
+  TimeDivider,
+  DurationDisplay,
+  ProgressControl,
+  FullscreenToggle,
+  PictureInPictureToggle,
+  LoopToggle,
+  TheaterModeToggle,
+  DownloadButton,
+  ScreenshotButton,
+  QualityMenuButton,
+  PlaybackRateMenuButton
+} from 'video-react-new';
+
+export default function CustomControlsPlayer() {
+  return (
+    <Player>
+      <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
+      <ControlBar>
+        <PlayToggle order={1} />
+        <VolumeMenuButton order={2} />
+        <CurrentTimeDisplay order={3} />
+        <TimeDivider order={4} />
+        <DurationDisplay order={5} />
+        <ProgressControl order={6} />
+        <LoopToggle order={7} />
+        <PlaybackRateMenuButton rates={[0.5, 1, 1.5, 2]} order={8} />
+        <QualityMenuButton qualities={['auto', '1080p', '720p', '480p']} order={9} />
+        <ScreenshotButton order={10} />
+        <DownloadButton order={11} />
+        <PictureInPictureToggle order={12} />
+        <TheaterModeToggle order={13} />
+        <FullscreenToggle order={14} />
+      </ControlBar>
+    </Player>
+  );
+}
+```
+
 ### Using with State Management
 
 ```jsx
@@ -185,11 +235,17 @@ export default function StatePlayer() {
 - `ForwardControl` - Forward skip button
 - `ReplayControl` - Replay/rewind button
 - `FullscreenToggle` - Fullscreen button
+- `PictureInPictureToggle` - Picture-in-picture button
+- `TheaterModeToggle` - Theater mode button
+- `LoopToggle` - Loop playback button
 - `ProgressControl` - Progress bar
 - `SeekBar` - Seekable progress bar
 - `PlaybackRateMenuButton` - Playback speed control
+- `QualityMenuButton` - Quality selection menu
 - `VolumeMenuButton` - Volume control
 - `ClosedCaptionButton` - Closed captions toggle
+- `DownloadButton` - Download video button
+- `ScreenshotButton` - Take screenshot button
 - `RemainingTimeDisplay` - Remaining time display
 - `CurrentTimeDisplay` - Current time display
 - `DurationDisplay` - Total duration display
