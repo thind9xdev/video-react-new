@@ -1,3 +1,11 @@
+/**
+
+ * Copyright (c) 2016 Video-React contributors
+ * Copyright (c) 2025 ZingMe.Vn
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 import React, { ReactEventHandler, ReactNode } from 'react';
 
 declare module 'video-react-new' {
@@ -9,6 +17,8 @@ declare module 'video-react-new' {
     width?: string | number;
     height?: string | number;
     fluid?: boolean; // = true;
+    bigPlayButtonPosition?: 'left' | 'center';
+    hideDefaultBigPlayButton?: boolean;
     muted?: boolean; // = false;
     playsInline?: boolean; // = false;
     aspectRatio?: string; // = 'auto';
@@ -51,11 +61,11 @@ declare module 'video-react-new' {
   class Player extends React.Component<PlayerPropsType> {
     readonly video: Video;
 
-    getDefaultChildren(originalChildren): Array<React.Component>;
+    getDefaultChildren(originalChildren: ReactNode): Array<React.Component>;
 
-    getChildren(props): Array<React.Component>;
+    getChildren(props: PlayerPropsType): Array<React.Component>;
 
-    setWidthOrHeight(style: object, name: string, value: string | number);
+    setWidthOrHeight(style: object, name: string, value: string | number): void;
 
     getStyle(): object;
 
@@ -85,13 +95,13 @@ declare module 'video-react-new' {
     get videoHeight(): number;
 
     // play the video
-    play();
+    play(): void;
 
     // pause the video
-    pause();
+    pause(): void;
 
     // Change the video source and re-load the video:
-    load();
+    load(): void;
 
     // Add a new text track to the video
     addTextTrack(
@@ -104,19 +114,21 @@ declare module 'video-react-new' {
     canPlayType(type: string): CanPlayTypeResult;
 
     // seek video by time
-    seek(time: number);
+    seek(time: number): void;
 
     // jump forward x seconds
-    forward(seconds: number);
+    forward(seconds: number): void;
 
     // jump back x seconds
-    replay(seconds: number);
+    replay(seconds: number): void;
 
     // enter or exist full screen
-    toggleFullscreen();
+    toggleFullscreen(): void;
 
     // subscribe to player state change
-    subscribeToStateChange(listener: (state: any, prevState: any) => void);
+    subscribeToStateChange(
+      listener: (state: any, prevState: any) => void
+    ): void;
   }
 
   interface VideoPropsType {
@@ -185,13 +197,13 @@ declare module 'video-react-new' {
     get videoHeight(): number;
 
     // play the video
-    play();
+    play(): void;
 
     // pause the video
-    pause();
+    pause(): void;
 
     // Change the video source and re-load the video:
-    load();
+    load(): void;
 
     // Add a new text track to the video
     addTextTrack(
@@ -204,25 +216,25 @@ declare module 'video-react-new' {
     canPlayType(type: string): CanPlayTypeResult;
 
     // toggle play
-    togglePlay();
+    togglePlay(): void;
 
     // seek video by time
-    seek(time: number);
+    seek(time: number): void;
 
     // jump forward x seconds
-    forward(seconds: number);
+    forward(seconds: number): void;
 
     // jump back x seconds
-    replay(seconds: number);
+    replay(seconds: number): void;
 
     // enter or exist full screen
-    toggleFullscreen();
+    toggleFullscreen(): void;
   }
 
   interface BigPlayButtonPropsType {
     actions?: object;
     player?: object;
-    position?: 'center' | 'left-top'; // = 'left';
+    position?: 'center' | 'left'; // default: 'left'
     className?: string;
   }
 
@@ -418,9 +430,7 @@ declare module 'video-react-new' {
     rates?: Array<number>; // = [2, 1.5, 1.25, 1, 0.5, 0.25];
     className?: string;
   }
-  class PlaybackRateMenuButton extends React.Component<
-    PlaybackRateMenuButtonPropsType
-  > {}
+  class PlaybackRateMenuButton extends React.Component<PlaybackRateMenuButtonPropsType> {}
 
   interface ClosedCaptionButtonPropsType {
     player?: object;
@@ -430,9 +440,7 @@ declare module 'video-react-new' {
     showOffMenu?: boolean; // = true;
     kinds?: Array<string>; // = ['captions', 'subtitles']; // `kind`s of TextTrack to look for to associate it with this menu.
   }
-  class ClosedCaptionButton extends React.Component<
-    ClosedCaptionButtonPropsType
-  > {}
+  class ClosedCaptionButton extends React.Component<ClosedCaptionButtonPropsType> {}
 
   class PlaybackRate extends React.Component {}
 
@@ -452,41 +460,35 @@ declare module 'video-react-new' {
     type PLAYER_ACTIVATE = 'video-react-new/PLAYER_ACTIVATE';
     type USER_ACTIVATE = 'video-react-new/USER_ACTIVATE';
 
-    function handleFullscreenChange(
-      isFullscreen: boolean
-    ): {
+    function handleFullscreenChange(isFullscreen: boolean): {
       type: FULLSCREEN_CHANGE;
-      isFullscreen;
+      isFullscreen: boolean;
     };
 
-    function activate(
-      activity
-    ): {
+    function activate(activity: any): {
       type: PLAYER_ACTIVATE;
-      activity;
+      activity: any;
     };
 
-    function userActivate(
-      activity
-    ): {
+    function userActivate(activity: any): {
       type: USER_ACTIVATE;
-      activity;
+      activity: any;
     };
 
-    function play(operation: {
-      action: 'play';
-      source: string;
-    }): {
+    function play(operation: { action: 'play'; source: string }): {
       type: OPERATE;
-      operation;
+      operation: {
+        action: 'play';
+        source: string;
+      };
     };
 
-    function pause(operation: {
-      action: 'pause';
-      source: string;
-    }): {
+    function pause(operation: { action: 'pause'; source: string }): {
       type: OPERATE;
-      operation;
+      operation: {
+        action: 'pause';
+        source: string;
+      };
     };
 
     function togglePlay(operation?: {
@@ -494,7 +496,10 @@ declare module 'video-react-new' {
       source: string;
     }): {
       type: OPERATE;
-      operation;
+      operation?: {
+        action: 'toggle-play';
+        source: string;
+      };
     };
 
     // seek video by time
@@ -506,7 +511,10 @@ declare module 'video-react-new' {
       }
     ): {
       type: OPERATE;
-      operation;
+      operation?: {
+        action: 'seek';
+        source: string;
+      };
     };
 
     // jump forward x seconds
@@ -518,7 +526,10 @@ declare module 'video-react-new' {
       }
     ): {
       type: OPERATE;
-      operation;
+      operation?: {
+        action: string;
+        source: string;
+      };
     };
 
     // jump back x seconds
@@ -530,7 +541,10 @@ declare module 'video-react-new' {
       }
     ): {
       type: OPERATE;
-      operation;
+      operation?: {
+        action: string;
+        source: string;
+      };
     };
 
     function changeRate(
@@ -541,7 +555,10 @@ declare module 'video-react-new' {
       }
     ): {
       type: OPERATE;
-      operation;
+      operation?: {
+        action: 'change-rate';
+        source: string;
+      };
     };
 
     function changeVolume(
@@ -552,7 +569,10 @@ declare module 'video-react-new' {
       }
     ): {
       type: OPERATE;
-      operation;
+      operation?: {
+        action: 'change-volume';
+        source: string;
+      };
     };
 
     function mute(
@@ -563,10 +583,16 @@ declare module 'video-react-new' {
       }
     ): {
       type: OPERATE;
-      operation;
+      operation?: {
+        action: 'muted' | 'unmuted';
+        source: string;
+      };
     };
 
-    function toggleFullscreen(player): { type: string; [key: string]: any };
+    function toggleFullscreen(player: any): {
+      type: string;
+      [key: string]: any;
+    };
   }
 
   namespace videoActions {
@@ -597,189 +623,137 @@ declare module 'video-react-new' {
     type ERROR = 'video-react-new/ERROR';
     type ACTIVATE_TEXT_TRACK = 'video-react-new/ACTIVATE_TEXT_TRACK';
 
-    function handleLoadStart(
-      videoProps
-    ): {
+    function handleLoadStart(videoProps: any): {
       type: LOAD_START;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleCanPlay(
-      videoProps
-    ): {
+    function handleCanPlay(videoProps: any): {
       type: CAN_PLAY;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleWaiting(
-      videoProps
-    ): {
+    function handleWaiting(videoProps: any): {
       type: WAITING;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleCanPlayThrough(
-      videoProps
-    ): {
+    function handleCanPlayThrough(videoProps: any): {
       type: CAN_PLAY_THROUGH;
-      videoProps;
+      videoProps: any;
     };
 
-    function handlePlaying(
-      videoProps
-    ): {
+    function handlePlaying(videoProps: any): {
       type: PLAYING;
-      videoProps;
+      videoProps: any;
     };
 
-    function handlePlay(
-      videoProps
-    ): {
+    function handlePlay(videoProps: any): {
       type: PLAY;
-      videoProps;
+      videoProps: any;
     };
 
-    function handlePause(
-      videoProps
-    ): {
+    function handlePause(videoProps: any): {
       type: PAUSE;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleEnd(
-      videoProps
-    ): {
+    function handleEnd(videoProps: any): {
       type: END;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleSeeking(
-      videoProps
-    ): {
+    function handleSeeking(videoProps: any): {
       type: SEEKING;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleSeeked(
-      videoProps
-    ): {
+    function handleSeeked(videoProps: any): {
       type: SEEKED;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleDurationChange(
-      videoProps
-    ): {
+    function handleDurationChange(videoProps: any): {
       type: DURATION_CHANGE;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleTimeUpdate(
-      videoProps
-    ): {
+    function handleTimeUpdate(videoProps: any): {
       type: TIME_UPDATE;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleVolumeChange(
-      videoProps
-    ): {
+    function handleVolumeChange(videoProps: any): {
       type: VOLUME_CHANGE;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleProgressChange(
-      videoProps
-    ): {
+    function handleProgressChange(videoProps: any): {
       type: PROGRESS_CHANGE;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleRateChange(
-      videoProps
-    ): {
+    function handleRateChange(videoProps: any): {
       type: RATE_CHANGE;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleSuspend(
-      videoProps
-    ): {
+    function handleSuspend(videoProps: any): {
       type: SUSPEND;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleAbort(
-      videoProps
-    ): {
+    function handleAbort(videoProps: any): {
       type: ABORT;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleEmptied(
-      videoProps
-    ): {
+    function handleEmptied(videoProps: any): {
       type: EMPTIED;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleStalled(
-      videoProps
-    ): {
+    function handleStalled(videoProps: any): {
       type: STALLED;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleLoadedMetaData(
-      videoProps
-    ): {
+    function handleLoadedMetaData(videoProps: any): {
       type: LOADED_META_DATA;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleLoadedData(
-      videoProps
-    ): {
+    function handleLoadedData(videoProps: any): {
       type: LOADED_DATA;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleResize(
-      videoProps
-    ): {
+    function handleResize(videoProps: any): {
       type: RESIZE;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleError(
-      videoProps
-    ): {
+    function handleError(videoProps: any): {
       type: ERROR;
-      videoProps;
+      videoProps: any;
     };
 
-    function handleSeekingTime(
-      time
-    ): {
+    function handleSeekingTime(time: any): {
       type: SEEKING_TIME;
-      time;
+      time: any;
     };
 
-    function handleEndSeeking(
-      time
-    ): {
+    function handleEndSeeking(time: any): {
       type: END_SEEKING;
-      time;
+      time: any;
     };
 
-    function activateTextTrack(
-      textTrack
-    ): {
+    function activateTextTrack(textTrack: any): {
       type: ACTIVATE_TEXT_TRACK;
-      textTrack;
+      textTrack: any;
     };
   }
 
-  function playerReducer(state: any, action: any);
-  function operationReducer(state: any, action: any);
+  function playerReducer(state: any, action: any): any;
+  function operationReducer(state: any, action: any): any;
 }

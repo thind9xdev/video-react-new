@@ -16,12 +16,12 @@ import {
   TIME_UPDATE,
   VOLUME_CHANGE,
   PROGRESS_CHANGE,
-  RATE_CHANGE
+  RATE_CHANGE,
 } from '../../actions/video';
 import {
   FULLSCREEN_CHANGE,
   PLAYER_ACTIVATE,
-  USER_ACTIVATE
+  USER_ACTIVATE,
 } from '../../actions/player';
 
 describe('player', () => {
@@ -32,6 +32,7 @@ describe('player', () => {
       currentTime: 0,
       seekingTime: 0,
       buffered: null,
+      textTracks: null,
       waiting: false,
       seeking: false,
       paused: true,
@@ -52,7 +53,7 @@ describe('player', () => {
       loop: false,
       isTheater: false,
       quality: 'auto',
-      activeTextTrack: null
+      activeTextTrack: null,
     };
     expect(player(undefined, {})).toEqual(expectedInitialState);
   });
@@ -61,18 +62,18 @@ describe('player', () => {
     const bufferTwo = {
       length: 2,
       start() {},
-      end() {}
+      end() {},
     };
     const stateBefore = {
       hasStarted: false,
       ended: false,
-      buffered: null
+      buffered: null,
     };
     const action = {
       type: LOAD_START,
       videoProps: {
-        buffered: bufferTwo
-      }
+        buffered: bufferTwo,
+      },
     };
     const stateAfter = {
       hasStarted: false,
@@ -80,8 +81,8 @@ describe('player', () => {
       buffered: {
         length: 2,
         start() {},
-        end() {}
-      }
+        end() {},
+      },
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -94,21 +95,21 @@ describe('player', () => {
       waiting: true,
       videoWidth: 0,
       videoHeight: 0,
-      duration: 0
+      duration: 0,
     };
     const action = {
       type: CAN_PLAY,
       videoProps: {
         videoWidth: 1080,
         videoHeight: 1920,
-        duration: 52.209
-      }
+        duration: 52.209,
+      },
     };
     const stateAfter = {
       waiting: false,
       videoWidth: 1080,
       videoHeight: 1920,
-      duration: 52.209
+      duration: 52.209,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -117,13 +118,13 @@ describe('player', () => {
 
   it('should handle WAITING action with FALSE', () => {
     const stateBefore = {
-      waiting: false
+      waiting: false,
     };
     const action = {
-      type: WAITING
+      type: WAITING,
     };
     const stateAfter = {
-      waiting: true
+      waiting: true,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -132,13 +133,13 @@ describe('player', () => {
 
   it('should handle WAITING action with WAITING true', () => {
     const stateBefore = {
-      waiting: true
+      waiting: true,
     };
     const action = {
-      type: WAITING
+      type: WAITING,
     };
     const stateAfter = {
-      waiting: true
+      waiting: true,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -147,13 +148,13 @@ describe('player', () => {
 
   it('should handle PLAYING action with WAITING false', () => {
     const stateBefore = {
-      waiting: false
+      waiting: false,
     };
     const action = {
-      type: PLAYING
+      type: PLAYING,
     };
     const stateAfter = {
-      waiting: false
+      waiting: false,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -162,13 +163,13 @@ describe('player', () => {
 
   it('should handle PLAYING action with WAITING true', () => {
     const stateBefore = {
-      waiting: true
+      waiting: true,
     };
     const action = {
-      type: PLAYING
+      type: PLAYING,
     };
     const stateAfter = {
-      waiting: false
+      waiting: false,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -182,13 +183,13 @@ describe('player', () => {
       autoPaused: false,
       waiting: false,
       hasStarted: true,
-      duration: 0
+      duration: 0,
     };
     const action = {
       type: PLAY,
       videoProps: {
-        duration: 52.209
-      }
+        duration: 52.209,
+      },
     };
     const stateAfter = {
       ended: false,
@@ -196,7 +197,7 @@ describe('player', () => {
       autoPaused: false,
       waiting: false,
       hasStarted: true,
-      duration: 52.209
+      duration: 52.209,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -205,13 +206,13 @@ describe('player', () => {
 
   it('should handle PAUSE action', () => {
     const stateBefore = {
-      paused: false
+      paused: false,
     };
     const action = {
-      type: PAUSE
+      type: PAUSE,
     };
     const stateAfter = {
-      paused: true
+      paused: true,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -220,13 +221,13 @@ describe('player', () => {
 
   it('should handle END action', () => {
     const stateBefore = {
-      ended: false
+      ended: false,
     };
     const action = {
-      type: END
+      type: END,
     };
     const stateAfter = {
-      ended: true
+      ended: true,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -235,13 +236,13 @@ describe('player', () => {
 
   it('should handle SEEKING action', () => {
     const stateBefore = {
-      seeking: false
+      seeking: false,
     };
     const action = {
-      type: SEEKING
+      type: SEEKING,
     };
     const stateAfter = {
-      seeking: true
+      seeking: true,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -250,13 +251,13 @@ describe('player', () => {
 
   it('should handle SEEKED action', () => {
     const stateBefore = {
-      seeking: false
+      seeking: false,
     };
     const action = {
-      type: SEEKED
+      type: SEEKED,
     };
     const stateAfter = {
-      seeking: false
+      seeking: false,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -265,14 +266,14 @@ describe('player', () => {
 
   it('should handle SEEKING_TIME action', () => {
     const stateBefore = {
-      seekingTime: 12
+      seekingTime: 12,
     };
     const action = {
       type: SEEKING_TIME,
-      time: 12
+      time: 12,
     };
     const stateAfter = {
-      seekingTime: 12
+      seekingTime: 12,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -281,14 +282,14 @@ describe('player', () => {
 
   it('should handle END_SEEKING action', () => {
     const stateBefore = {
-      seekingTime: 1
+      seekingTime: 1,
     };
     const action = {
       type: END_SEEKING,
-      time: 1
+      time: 1,
     };
     const stateAfter = {
-      seekingTime: 0
+      seekingTime: 0,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -297,16 +298,16 @@ describe('player', () => {
 
   it('should handle DURATION_CHANGE action', () => {
     const stateBefore = {
-      duration: 0
+      duration: 0,
     };
     const action = {
       type: DURATION_CHANGE,
       videoProps: {
-        duration: 23
-      }
+        duration: 23,
+      },
     };
     const stateAfter = {
-      duration: 23
+      duration: 23,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -315,16 +316,16 @@ describe('player', () => {
 
   it('should handle TIME_UPDATE action', () => {
     const stateBefore = {
-      currentTime: 49.11
+      currentTime: 49.11,
     };
     const action = {
       type: TIME_UPDATE,
       videoProps: {
-        currentTime: 12.01
-      }
+        currentTime: 12.01,
+      },
     };
     const stateAfter = {
-      currentTime: 12.01
+      currentTime: 12.01,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -334,18 +335,18 @@ describe('player', () => {
   it('should handle VOLUME_CHANGE action', () => {
     const stateBefore = {
       volume: 0.99,
-      muted: true
+      muted: true,
     };
     const action = {
       type: VOLUME_CHANGE,
       videoProps: {
         volume: 0.62,
-        muted: false
-      }
+        muted: false,
+      },
     };
     const stateAfter = {
       volume: 0.62,
-      muted: false
+      muted: false,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -356,23 +357,23 @@ describe('player', () => {
     const bufferThree = {
       length: 3,
       start() {},
-      end() {}
+      end() {},
     };
     const stateBefore = {
       buffered: {
         length: 1,
         start() {},
-        end() {}
-      }
+        end() {},
+      },
     };
     const action = {
       type: PROGRESS_CHANGE,
       videoProps: {
-        buffered: bufferThree
-      }
+        buffered: bufferThree,
+      },
     };
     const stateAfter = {
-      buffered: bufferThree
+      buffered: bufferThree,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -382,16 +383,16 @@ describe('player', () => {
 
   it('should handle RATE_CHANGE action', () => {
     const stateBefore = {
-      playbackRate: 1
+      playbackRate: 1,
     };
     const action = {
       type: RATE_CHANGE,
       videoProps: {
-        playbackRate: 1.1
-      }
+        playbackRate: 1.1,
+      },
     };
     const stateAfter = {
-      playbackRate: 1.1
+      playbackRate: 1.1,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -400,14 +401,14 @@ describe('player', () => {
 
   it('should handle FULLSCREEN_CHANGE action', () => {
     const stateBefore = {
-      isFullscreen: false
+      isFullscreen: false,
     };
     const action = {
       type: FULLSCREEN_CHANGE,
-      isFullscreen: true
+      isFullscreen: true,
     };
     const stateAfter = {
-      isFullscreen: true
+      isFullscreen: true,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -416,14 +417,14 @@ describe('player', () => {
 
   it('should handle USER_ACTIVATE action', () => {
     const stateBefore = {
-      userActivity: false
+      userActivity: false,
     };
     const action = {
       type: USER_ACTIVATE,
-      activity: true
+      activity: true,
     };
     const stateAfter = {
-      userActivity: true
+      userActivity: true,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);
@@ -432,14 +433,14 @@ describe('player', () => {
 
   it('should handle PLAYER_ACTIVATE action', () => {
     const stateBefore = {
-      isActive: true
+      isActive: true,
     };
     const action = {
       type: PLAYER_ACTIVATE,
-      activity: false
+      activity: false,
     };
     const stateAfter = {
-      isActive: false
+      isActive: false,
     };
     deepFreeze(stateBefore);
     deepFreeze(action);

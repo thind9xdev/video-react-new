@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/video-react-new.svg)](https://badge.fury.io/js/video-react-new)
 [![Package Quality](http://npm.packagequality.com/shield/video-react-new.svg)](http://packagequality.com/#?package=video-react-new)
 
-Video-React-New is a web video player built from the ground up for an HTML5 world using React library.
+Video-React-New is a web video player built from the ground up for an HTML5 world using React library on base Videojs.
 
 ### ✨ About Video-React-New
 
@@ -132,7 +132,7 @@ export default function ControlledPlayer() {
     playerRef.current.pause();
   };
 
-  const handleSeek = seconds => {
+  const handleSeek = (seconds) => {
     playerRef.current.seek(seconds);
   };
 
@@ -171,7 +171,7 @@ import {
   DownloadButton,
   ScreenshotButton,
   QualityMenuButton,
-  PlaybackRateMenuButton
+  PlaybackRateMenuButton,
 } from 'video-react-new';
 
 export default function CustomControlsPlayer() {
@@ -370,16 +370,16 @@ The player can be styled using CSS or SCSS. All components have BEM-style class 
 
 ```css
 /* Custom player styles */
-.video-react .video-react-big-play-button {
+.video-react-new .video-react-new-big-play-button {
   background-color: #ff0000;
   border-color: #ff0000;
 }
 
-.video-react .video-react-control-bar {
+.video-react-new .video-react-new-control-bar {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.video-react .video-react-play-progress {
+.video-react-new .video-react-new-play-progress {
   background-color: #ff0000;
 }
 ```
@@ -518,7 +518,7 @@ Yes, video-react-new works with Next.js. Just make sure to import styles appropr
 
 ## License
 
-MIT © [Video-React-New Contributors](https://github.com/thind9xdev/video-react-new-dart/graphs/contributors)
+MIT © [Video-React-New Contributors](https://github.com/thind9xdev/video-react-new/graphs/contributors)
 
 ## Inspiration & Credits
 

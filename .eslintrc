@@ -5,6 +5,21 @@
     "window": true
   },
   "parser": "babel-eslint",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react",
+        "@babel/preset-typescript"
+      ]
+    }
+  },
+  "ignorePatterns": [
+    "dist/",
+    "lib/",
+    "test/coverage/"
+  ],
   "env": {
     "browser": true,
     "jest": true

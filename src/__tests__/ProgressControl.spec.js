@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import ProgressControl from '../components/control-bar/ProgressControl';
+import SeekBar from '../components/control-bar/SeekBar';
 
 describe('ProgressControl', () => {
   it('should render with "div" tag', () => {
@@ -14,8 +15,17 @@ describe('ProgressControl', () => {
     expect(wrapper.hasClass('video-react-new-progress-control')).toBe(true);
   });
 
-  it('should bind ref "seekBar"', () => {
-    const wrapper = mount(<ProgressControl player={{}} />);
-    expect(wrapper.instance().seekBar).toBeTruthy();
+  it('should render SeekBar child', () => {
+    const wrapper = mount(
+      <ProgressControl
+        player={{ duration: 0, currentTime: 0, seekingTime: 0 }}
+        actions={{
+          handleSeekingTime: jest.fn(),
+          seek: jest.fn(),
+          handleEndSeeking: jest.fn(),
+        }}
+      />
+    );
+    expect(wrapper.find(SeekBar).length).toBe(1);
   });
 });
