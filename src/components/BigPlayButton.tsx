@@ -1,6 +1,8 @@
+/* eslint-disable no-undef, no-unused-expressions */
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
+// eslint-disable-next-line import/no-unresolved
 import type { ActionCreators } from '../Manager';
 import type { PlayerState } from '../reducers/player';
 

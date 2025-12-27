@@ -18,7 +18,7 @@ type FullscreenDocument = Document & {
 
 // Lazily grab the document to avoid SSR "document is not defined" errors.
 const doc: FullscreenDocument | null =
-  typeof document !== 'undefined' ? (document as FullscreenDocument) : null;
+  typeof document !== 'undefined' ? document : null;
 
 class Fullscreen {
   request(elm: FullscreenElement) {

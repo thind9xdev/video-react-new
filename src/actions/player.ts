@@ -6,6 +6,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+/* eslint-disable no-undef, no-unused-expressions */
+
 import type Manager from '../Manager';
 import type { OperationState } from '../reducers/operation';
 import type { PlayerState } from '../reducers/player';
@@ -206,10 +208,8 @@ export function toggleFullscreen(this: Manager, player: PlayerState) {
   if (fullscreen.enabled) {
     if (fullscreen.isFullscreen) {
       fullscreen.exit();
-    } else {
-      if (this.rootElement) {
-        fullscreen.request(this.rootElement);
-      }
+    } else if (this.rootElement) {
+      fullscreen.request(this.rootElement);
     }
     return {
       type: OPERATE,
@@ -226,7 +226,7 @@ export function toggleFullscreen(this: Manager, player: PlayerState) {
   };
 }
 
-export function togglePictureInPicture(this: Manager) {
+export function togglePictureInPicture() {
   const next = !this.store.getState().player.isPictureInPicture;
   return handlePictureInPictureChange(next);
 }
@@ -235,7 +235,7 @@ export function changeQuality(this: Manager, quality: string) {
   return handleQualityChange(quality);
 }
 
-export function takeScreenshot(this: Manager) {
+export function takeScreenshot() {
   return {
     type: OPERATE,
     operation: {

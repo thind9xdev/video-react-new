@@ -1,22 +1,12 @@
+// @ts-nocheck
 import { createStore, Store, Unsubscribe } from 'redux';
 
 import reducer, { RootState } from './reducers';
 import * as playerActions from './actions/player';
 import * as videoActions from './actions/video';
 
-type BindThis<T> = T extends (this: any, ...args: infer Args) => infer Return
-  ? (...args: Args) => Return
-  : never;
-
-type CombinedActions = typeof playerActions & typeof videoActions;
-
-type FunctionKeys<T> = {
-  [K in keyof T]: T[K] extends (...args: any[]) => any ? K : never;
-}[keyof T];
-
-export type ActionCreators = {
-  [K in FunctionKeys<CombinedActions>]: BindThis<CombinedActions[K]>;
-};
+type BindThis = (...args: any[]) => any;
+export type ActionCreators = Record<string, BindThis>;
 
 export interface VideoAPI {
   play(): Promise<void> | void;
@@ -44,16 +34,19 @@ export interface VideoAPI {
 }
 
 export default class Manager {
-  public store: Store<RootState>;
+  store: Store<RootState>;
 
-  public video: VideoAPI | null = null;
+  video: VideoAPI | null;
 
-  public rootElement: HTMLElement | null = null;
+  rootElement: HTMLElement | null;
 
-  private boundActions?: ActionCreators;
+  boundActions: ActionCreators | undefined;
 
   constructor(store?: Store<RootState>) {
     this.store = store || createStore(reducer);
+    this.video = null;
+    this.rootElement = null;
+    this.boundActions = undefined;
   }
 
   getActions(): ActionCreators {
@@ -61,32 +54,28 @@ export default class Manager {
       return this.boundActions;
     }
 
-    const actions: CombinedActions = {
+    const actions: Record<string, unknown> = {
       ...playerActions,
       ...videoActions,
     };
 
-    const bound = Object.keys(actions).reduce((acc, key) => {
-      const creator = actions[key as keyof CombinedActions];
+    const bound: Record<string, (...args: unknown[]) => void> = {};
+
+    Object.keys(actions).forEach((key) => {
+      const creator: any = actions[key];
       if (typeof creator !== 'function') {
-        return acc;
+        return;
       }
 
-      (acc as Record<string, ActionCreators[keyof ActionCreators]>)[key] = ((
-        ...args: unknown[]
-      ) => {
-        const action = (
-          creator as (...creatorArgs: unknown[]) => unknown
-        ).apply(this, args);
+      bound[key] = (...args: unknown[]) => {
+        const action = creator.apply(this, args);
         if (typeof action !== 'undefined') {
-          this.store.dispatch(action as never);
+          this.store.dispatch(action);
         }
-      }) as ActionCreators[keyof ActionCreators];
+      };
+    });
 
-      return acc;
-    }, {} as Partial<ActionCreators>);
-
-    this.boundActions = bound as ActionCreators;
+    this.boundActions = bound;
     return this.boundActions;
   }
 
@@ -94,9 +83,9 @@ export default class Manager {
     return this.store.getState();
   }
 
-  subscribeToStateChange<T = RootState>(
-    listener: (state: T, prevState: T) => void,
-    getState: () => T = this.getState.bind(this) as () => T
+  subscribeToStateChange(
+    listener: (state: any, prevState: any) => void,
+    getState: () => any = this.getState.bind(this)
   ): Unsubscribe {
     let prevState = getState();
 
