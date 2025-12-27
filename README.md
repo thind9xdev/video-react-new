@@ -80,6 +80,39 @@ export default function VideoPlayer() {
 }
 ```
 
+### Nextjs:
+
+```jsx
+import dynamic from 'next/dynamic';
+import 'video-react-new/dist/video-react-new.css';
+
+const Player = dynamic(() => import('video-react-new').then((m) => m.Player), {
+  ssr: false,
+});
+const ControlBar = dynamic(
+  () => import('video-react-new').then((m) => m.ControlBar),
+  { ssr: false }
+);
+const BigPlayButton = dynamic(
+  () => import('video-react-new').then((m) => m.BigPlayButton),
+  { ssr: false }
+);
+const PlayToggle = dynamic(
+  () => import('video-react-new').then((m) => m.PlayToggle),
+  { ssr: false }
+);
+
+export default function Page() {
+  return (
+    <Player bigPlayButtonPosition="center" src="/video.mp4">
+      <ControlBar>
+        <PlayToggle />
+      </ControlBar>
+    </Player>
+  );
+}
+```
+
 ### Advanced Example with Multiple Sources and Subtitles
 
 ```jsx
