@@ -1,3 +1,5 @@
 test/coverage/
 dist/
 lib/
+src/**/*.ts
+src/**/*.tsx

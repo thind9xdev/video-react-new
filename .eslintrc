@@ -15,11 +15,6 @@
       ]
     }
   },
-  "ignorePatterns": [
-    "dist/",
-    "lib/",
-    "test/coverage/"
-  ],
   "env": {
     "browser": true,
     "jest": true
